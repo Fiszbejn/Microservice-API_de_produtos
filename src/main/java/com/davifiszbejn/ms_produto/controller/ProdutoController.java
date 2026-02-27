@@ -4,7 +4,9 @@ import com.davifiszbejn.ms_produto.dto.ProdutoDTO;
 import com.davifiszbejn.ms_produto.dto.ProdutoInputDTO;
 import com.davifiszbejn.ms_produto.dto.ProdutoResponseDTO;
 import com.davifiszbejn.ms_produto.services.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -33,7 +35,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProdutoDTO> createProduto(@RequestBody ProdutoDTO produtoDTO) {
+    public ResponseEntity<ProdutoDTO> createProduto(@RequestBody @Valid ProdutoDTO produtoDTO) {
         produtoDTO = produtoService.saveProduto(produtoDTO);
 
         URI uri = ServletUriComponentsBuilder
@@ -46,7 +48,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProdutoDTO> updateProduto(@PathVariable Long id, @RequestBody ProdutoDTO produtoDTO) {
+    public ResponseEntity<ProdutoDTO> updateProduto(@PathVariable Long id, @RequestBody @Valid ProdutoDTO produtoDTO) {
 
         produtoDTO = produtoService.updateProduto(id, produtoDTO);
 

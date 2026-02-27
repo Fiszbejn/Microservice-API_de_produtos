@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<CustomErrorDTO> methodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
+    public ResponseEntity<CustomErrorDTO> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
 
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         ValidationErrorDTO err = new ValidationErrorDTO(Instant.now(), status.value(), "Dados Inválidos", request.getRequestURI());

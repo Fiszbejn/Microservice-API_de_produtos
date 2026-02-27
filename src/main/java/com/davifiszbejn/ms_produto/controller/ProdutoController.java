@@ -45,4 +45,20 @@ public class ProdutoController {
         return ResponseEntity.created(uri).body(produtoDTO);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> updateProduto(@PathVariable Long id, @RequestBody ProdutoDTO produtoDTO) {
+
+        produtoDTO = produtoService.updateProduto(id, produtoDTO);
+
+        return ResponseEntity.ok(produtoDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduto(@PathVariable Long id) {
+
+        produtoService.deleteProdutoById(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

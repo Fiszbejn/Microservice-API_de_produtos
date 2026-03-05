@@ -1,152 +1,188 @@
-# Microservice API de Produtos (ms-produto)
+# Microservice API de Produtos
 
-API REST desenvolvida durante as aulas de **Microservice and Web Engineering & IT Services**, com foco em aplicar boas práticas de backend com **Java + Spring Boot**.
+![Java](https://img.shields.io/badge/Java-17-red) ![Spring
+Boot](https://img.shields.io/badge/SpringBoot-3.x-brightgreen)
+![Build](https://img.shields.io/badge/build-Maven-blue)
+![API](https://img.shields.io/badge/API-REST-orange)
 
-Este repositório implementa um **CRUD de Produtos**, utilizando validação de dados, persistência com JPA e um tratamento global de exceções para padronizar respostas de erro.
+API REST desenvolvida com **Java e Spring Boot** para gerenciamento de
+produtos.
 
----
+Este projeto demonstra a construção de um serviço backend seguindo
+**boas práticas de engenharia de software**, incluindo arquitetura em
+camadas, integração com banco de dados relacional e desenvolvimento de
+endpoints REST para operações CRUD.
 
-## Objetivo do projeto
+O objetivo do projeto é praticar conceitos fundamentais de **backend
+moderno**, como:
 
-- Consolidar fundamentos de **API REST** com Spring Boot
-- Praticar organização por camadas (**Controller / Service / Repository**)
-- Implementar **validações** de entrada (Bean Validation)
-- Persistir dados com **Spring Data JPA (Hibernate)**
-- Usar banco em memória **H2** para facilitar testes e execução local
-- Centralizar erros com **Global Exception Handler** (responses consistentes)
+-   Desenvolvimento de **APIs REST**
+-   Organização de aplicações com **Spring Boot**
+-   Persistência de dados com **Spring Data JPA**
+-   Separação de responsabilidades em **camadas de arquitetura**
+-   Integração com **banco de dados relacional**
 
----
+------------------------------------------------------------------------
 
-## Principais funcionalidades
+# Tecnologias Utilizadas
 
-- Listar produtos
-- Buscar produto por ID
-- Cadastrar produto
-- Atualizar produto
-- Remover produto
-- Validação de campos (nome, descrição, valor)
-- Respostas de erro padronizadas (404, 422, 400, 500)
+-   **Java 17**
+-   **Spring Boot**
+-   **Spring Data JPA**
+-   **Hibernate**
+-   **PostgreSQL**
+-   **Maven**
+-   **RESTful APIs**
 
----
+------------------------------------------------------------------------
 
-## Stack e tecnologias
+# Arquitetura do Projeto
 
-### Linguagem e runtime
-- **Java 17**
+A aplicação segue o padrão de **arquitetura em camadas**, amplamente
+utilizado em aplicações backend.
 
-### Framework principal
-- **Spring Boot 3.x**
-  - `spring-boot-starter-web` (API REST, Controllers, JSON)
-  - `spring-boot-starter-data-jpa` (JPA/Hibernate + repositórios)
-  - `spring-boot-starter-validation` (Bean Validation com Jakarta Validation)
+    Controller
+       ↓
+    Service
+       ↓
+    Repository
+       ↓
+    Database
 
-### Banco de dados
-- **H2 Database (runtime)**  
-  Banco em memória para desenvolvimento/testes locais.
+### Controller
 
-### Produtividade
-- **Lombok**  
-  Redução de boilerplate (getters/setters/constructors, etc).
+Responsável por expor os endpoints da API e receber as requisições HTTP.
 
-### Testes / Dev Experience
-- `spring-boot-starter-test`
-- `spring-boot-devtools`
+### Service
 
----
+Contém a lógica de negócio da aplicação.
 
-## Arquitetura (visão rápida)
+### Repository
 
-Estrutura em camadas típica de backend:
+Camada responsável pela comunicação com o banco de dados utilizando
+**Spring Data JPA**.
 
-- **Controller**: expõe endpoints REST (`/produtos`)
-- **Service**: regras de negócio e orquestração
-- **Repository**: acesso a dados (Spring Data JPA)
-- **DTO**: entrada/saída da API e validações
-- **Exceptions/Handler**: tratamento global de erros
+### Entity / Model
 
----
+Representação das entidades persistidas no banco.
 
-## Endpoints da API
+Essa separação melhora:
 
-Base URL: `http://localhost:8080`
+-   organização do código
+-   manutenção do sistema
+-   escalabilidade da aplicação
 
-### Produtos
+------------------------------------------------------------------------
 
-- `GET /produtos`  
-  Lista todos os produtos.
+# Funcionalidades
 
-- `GET /produtos/{id}`  
-  Busca produto por ID.
+-   Cadastro de produtos
+-   Listagem de produtos
+-   Busca de produto por ID
+-   Atualização de dados do produto
+-   Remoção de produtos
+-   Validação de dados
+-   Tratamento de erros padronizado
 
-- `POST /produtos`  
-  Cria um produto.
+------------------------------------------------------------------------
 
-- `PUT /produtos/{id}`  
-  Atualiza um produto existente.
+# Endpoints da API
 
-- `DELETE /produtos/{id}`  
-  Remove um produto.
+## Criar produto
 
----
+POST `/produtos`
 
-## Exemplo de payload (POST/PUT)
+### Exemplo de requisição
 
-```json
+``` json
 {
-  "nome": "Teclado Mecânico",
-  "descricao": "Teclado mecânico ABNT2 com switch red",
-  "valor": 399.90
+  "nome": "Produto Exemplo",
+  "preco": 100.0
 }
 ```
 
-### Regras de validação (DTO)
-- `nome`: obrigatório, 3–100 caracteres
-- `descricao`: obrigatória, mínimo 10 caracteres
-- `valor`: obrigatório e **positivo**
+------------------------------------------------------------------------
 
----
+## Listar produtos
 
-## Tratamento de erros (padrão de respostas)
+GET `/produtos`
 
-O projeto possui um **handler global** para retornar erros de forma consistente.
+------------------------------------------------------------------------
 
-Exemplos:
-- **404 Not Found**: quando o recurso não existe (ex.: `GET /produtos/999`)
-- **422 Unprocessable Entity**: quando há erro de validação nos campos
-- **400 Bad Request**: JSON malformado ou parâmetro inválido
-- **500 Internal Server Error**: erro inesperado (há até um endpoint de demo em profile de teste)
+## Buscar produto por ID
 
----
+GET `/produtos/{id}`
 
-## Dados iniciais (seed)
+------------------------------------------------------------------------
 
-Existe um `import.sql` com inserts em `tb_produto`, facilitando testar a API rapidamente ao subir o projeto.
+## Atualizar produto
 
----
+PUT `/produtos/{id}`
 
-## Como executar localmente
+------------------------------------------------------------------------
 
-### Pré-requisitos
-- Java 17
-- Maven (ou usar o Maven da IDE)
+## Remover produto
 
-### Rodando a aplicação
+DELETE `/produtos/{id}`
 
-```bash
+------------------------------------------------------------------------
+
+# Como executar o projeto
+
+## 1. Clonar o repositório
+
+``` bash
+git clone https://github.com/Fiszbejn/Microservice-API_de_produtos.git
+```
+
+## 2. Entrar na pasta do projeto
+
+``` bash
+cd Microservice-API_de_produtos
+```
+
+## 3. Executar a aplicação
+
+``` bash
 mvn spring-boot:run
 ```
 
-A aplicação sobe por padrão em `http://localhost:8080`.
+A aplicação estará disponível em:
 
----
+    http://localhost:8080
 
-## O que eu pratiquei com este projeto (para vagas de estágio)
+------------------------------------------------------------------------
 
-- Construção de **API REST** com Spring Boot
-- Padrão de camadas e boas práticas de organização do código
-- **CRUD completo** com Spring Data JPA
-- **Validação** de entrada e mensagens amigáveis de erro
-- Padronização de responses com **Global Exception Handling**
-- Banco em memória (H2) + carga inicial via `import.sql`
+# Exemplo de Resposta da API
 
----
+``` json
+{
+  "id": 1,
+  "nome": "Produto Exemplo",
+  "preco": 100.0
+}
+```
+
+------------------------------------------------------------------------
+
+# Melhorias futuras
+
+Algumas melhorias planejadas para evolução do projeto:
+
+-   Containerização da aplicação com **Docker**
+-   Implementação de **testes automatizados**
+-   Documentação da API com **Swagger / OpenAPI**
+-   Implementação de **paginação**
+-   Autenticação e autorização
+
+------------------------------------------------------------------------
+
+# Autor
+
+**Davi Fiszbejn**
+
+LinkedIn\
+https://www.linkedin.com/in/davifiszbejn/
+
+GitHub\
+https://github.com/Fiszbejn

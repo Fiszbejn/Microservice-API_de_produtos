@@ -1,5 +1,6 @@
 package com.davifiszbejn.ms_produto.exceptions.handler;
 
+import com.davifiszbejn.ms_produto.exceptions.DatabaseException;
 import com.davifiszbejn.ms_produto.exceptions.ResourceNotFoundException;
 import com.davifiszbejn.ms_produto.exceptions.dto.CustomErrorDTO;
 import com.davifiszbejn.ms_produto.exceptions.dto.ValidationErrorDTO;
@@ -64,6 +65,13 @@ public class GlobalExceptionHandler {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), "Erro interno inesperado.", request.getRequestURI());
 
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomErrorDTO> handleDatabase(DatabaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        CustomErrorDTO err = new CustomErrorDTO(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 
